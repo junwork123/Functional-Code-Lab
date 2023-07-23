@@ -1,32 +1,45 @@
 let shoppingCart = [];
 let shoppingCartTotal = 0;
+let cartItemProperties = {
+    name: 'test',
+    price: 12345,
+}
+
+const defaultProperties = {
+    name: '',
+    price: 0,
+};
 
 // 전역변수(cart)를 읽는 것은 액션이다
-function addToCart(cart, name, price) {
-    let cartItem = makeCartItem(name, price);
+function addToCart(cart, defaultProperties, cartItemProperties) {
+    let cartItem = makeCartItem(defaultProperties, cartItemProperties);
     cart = addCartItem(cart, cartItem);
     return calculateCartTotal(cart);
 }
 
 // 암시적 입출력이 없으므로 계산이다.
-function makeCartItem(name, price) {
-    return {
-        name: name,
-        price: price
-    };
+function makeCartItem(defaultProperties, cartItemProperties) {
+    return makeItem({
+        ...defaultProperties,
+        ...cartItemProperties,
+    });
+}
+
+function makeItem(properties) {
+    return { ...properties };
 }
 
 // 암시적 입출력이 없으므로 계산이다.
 function addCartItem(cart, cartItem) {
     // 장바구니 케이스에 맞게 재사용
-    return addElementLast(cart, cartItem);
+    return addItemToArray(cart, cartItem);
 }
 
 // 암시적 입출력이 없으므로 계산이다.
-function addElementLast(array, element) {
+function addItemToArray(array, item) {
     // 일반적인 상황에서도 사용할 수 있도록 작성
     let newArray = array.slice(); // ★ 배열 복사본으로 계산 ★
-    newArray.push(element);
+    newArray.push(item);
     return newArray;
 }
 
@@ -38,12 +51,12 @@ function calculateCartTotal(cart) {
 }
 
 // 암시적 입출력이 없으므로 계산이다.
-function calculateTotal(cart) {
-    let shoppingCartTotal = 0;
-    for (let i = 0; i < cart.length; i++) {
-        shoppingCartTotal += cart[i].price;
+function calculateTotal(array) {
+    let total = 0;
+    for (let i = 0; i < array.length; i++) {
+        total += array[i].price;
     }
-    return shoppingCartTotal;
+    return total;
 }
 
 // DOM을 조작하므로 액션이다.
