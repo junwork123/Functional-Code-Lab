@@ -4,14 +4,16 @@ function objectSet(obj, key, value) {
     return copy;
 }
 
-function setPriceByName(cart, name, price) {
+function setFieldByName(cart, name, fieldName, value) {
     let item = cart[name];
-    let newItem = objectSet(item, 'price', price);
+    let newItem = objectSet(item, fieldName, value);
     return objectSet(cart, name, newItem);
 }
 
+function setPriceByName(cart, name, price) {
+    return setFieldByName(cart, name, 'price', price);
+}
+
 function setQuantityByName(cart, name, quantity) {
-    let item = cart[name];
-    let newItem = objectSet(item, 'quantity', quantity);
-    return objectSet(cart, name, newItem);
+    return setFieldByName(cart, name, 'quantity', quantity);
 }
